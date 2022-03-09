@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        textarea{
+            width: 1000px;
+            height: 2000px;
+            border: solid 2px black;
+        }
+    </style>
+</head>
+<body>
+    <form action="/" method="post">
+        <input type="url" name="url">
+        <input type="submit">
+    </form>
+     <div>
+         <textarea th:if="${document!=null}" th:text="${document}"></textarea>
+     </div>
+
+</body>
+</html>
