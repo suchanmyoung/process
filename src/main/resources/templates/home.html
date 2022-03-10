@@ -15,7 +15,17 @@
         <input type="submit">
     </form>
      <div>
-         <textarea th:if="${document!=null}" th:text="${document}"></textarea>
+         <th>------영어------</th><br>
+         <tr th:if="filteredChar != null" th:each="char : ${filteredChar}">
+             <td th:text="${char}"></td>
+         </tr>
+
+         <br><br><br>
+
+         <th>-------숫자-------</th><br>
+         <tr th:if="filteredInt != null" th:each="int : ${filteredInt}">
+             <td th:text="${int}"></td>
+         </tr>
      </div>
 
 </body>

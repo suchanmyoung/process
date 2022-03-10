@@ -12,10 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
+
+    private static List<Character> filteredInt = new ArrayList<>();
+    private static List<Character> filteredChar = new ArrayList<>();
 
     @GetMapping
     public String home(Model model) {
@@ -26,18 +33,35 @@ public class HomeController {
     public String home(Model model, @RequestParam("url") String url) throws Exception {
         Document document = Jsoup.connect(url).get();
         char[] select = document.html().toCharArray();
+
         for (char c : select) {
-            int ascii = c;
-            if (ascii > 47 && ascii < 58 || ascii>65 && ascii < 91 || ascii > 96 && ascii < 123) {
-                //어떤 배열을 생성해서 이걸 저장해야할듯
-                //그 후에 sort 메소드 돌려서..?
-                System.out.print((char) ascii);
+            int asciiCode = c;
+            if (asciiCode > 47 && asciiCode < 58) {
+                filterToNumber(c);
+            } else if (asciiCode > 64 && asciiCode < 91 || asciiCode > 96 && asciiCode < 123) {
+                filterToChar(c);
             }
         }
-        
-        model.addAttribute("document", select);
+
+        Collections.sort(filteredChar);
+        Collections.sort(filteredInt);
+
+        model.addAttribute("filteredChar", filteredChar);
+        model.addAttribute("filteredInt", filteredInt);
+
         return "home";
     }
+
+    public List<Character> filterToChar(char c) {
+        filteredChar.add(c);
+        return filteredChar;
+    }
+
+    public List<Character> filterToNumber(char c) {
+        filteredInt.add(c);
+        return filteredInt;
+    }
+
 
 
 }
